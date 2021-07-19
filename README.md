@@ -8,7 +8,15 @@
 
 For this interactive workshop, we will be making [ohwhaley](https://github.com/fontikar/ohwhaley) the R package together 🐋
 
-I have provided the bulk of the code in `R/`:
+**Participants should have the following ready for the workshop**
+
+- The most recent version of R (≥ 4.1) and RStudio (≥1.4) installed
+- The following package(s) and their dependencies installed: devtools, testthat, knitr
+- Basic understanding of how to write a function
+- Basic usage of [git](https://jennybc.github.io/2014-05-12-ubc/ubc-r/session03_git.html) *optional but recommended
+- Basic understanding of project directories and .Rproj files
+
+I have provided the bulk of the code in `R/` so you can simply copy-and-paste when its necessary 😉:
 
 - `say.R` R script containing the `say()` function for `ohwhaley`
 - `phrases.R` R script containing phrases used by `say()`
@@ -25,7 +33,7 @@ Read more about R packages, I recommend the 2nd Edition of [The R packages book]
 2. Why make an R packge [a breakout discussion]
 3. The mise en place
   - R and RStudio
-  - git and GitHub (optional, but recommended)
+  - git and GitHub *optional, but recommended
 4. The basic packages
   - devtools
   - usethis
