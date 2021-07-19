@@ -1,0 +1,27 @@
+---
+title: "Main functions for DIY R package"
+author: "Fonti Kar"
+date: "19/07/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      error = FALSE)
+```
+
+## DIY R package 
+
+Below are some of the main functions needed to create your first R package!
+
+### The mise en place 
+
+```{r MEP, tidy = TRUE}
+library(devtools) #Will load usesthis and roxgen2 as well
+library(testthat)
+```
+
+### The main set up
+
