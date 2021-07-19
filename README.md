@@ -2,11 +2,13 @@
 
 # DIY R package workshop 
 
-<img src="Beyonce_package.png" align="center" alt="" width="500" />
+<img src="Beyonce_package.png" align="center" alt="" width="300" />
 
 ### Hello! Welcome! 👋
 
 For this interactive workshop, we will be making [ohwhaley](https://github.com/fontikar/ohwhaley) the R package together 🐋
+
+https://user-images.githubusercontent.com/12161802/126092363-50b73c69-f1ca-474e-8587-cd0652330ab5.mov
 
 **Participants should have the following ready for the workshop**
 
