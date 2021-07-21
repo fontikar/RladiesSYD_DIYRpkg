@@ -51,6 +51,7 @@ Read more about R packages, I recommend the 2nd Edition of [The R packages book]
   - Document it!
   - README
   - Vignette
+  - Data in your package
   - Tests
 6. What makes a good R package? [breakout discussion] *If there is time
 7. Summary
