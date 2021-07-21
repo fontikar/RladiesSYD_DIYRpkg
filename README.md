@@ -24,6 +24,9 @@ I have provided the bulk of the code in `R/` so you can simply copy-and-paste wh
 - `phrases.R` R script containing phrases used by `say()`
 - `test-say.R` R script containing a simple test for `say()`
 - `roxygen_template.R` R script containing roxygen documentation for `say()`
+- `data_template.R` R script containing roxygen template for documenting external data
+- `example_README.Rmd` Rmd file for the README
+- `example_vignette.Rmd` Rmd file for the vignette
 
 I have also included my slides in `slides/`
 
