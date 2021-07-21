@@ -32,14 +32,16 @@ library(testthat)
 
 ### The main set up
 
+This function will create the basic skeleton of your R package 👏👏👏 
+
 ```{r Set up first}
-#Create the basic skeleton of your package
-#create_package("package_name")
+# Create the basic skeleton of your package
+# create_package("package_name")
 
 create_package("ohwhaley")
-```
 
-This function will create the basic skeleton of your R package 👏👏👏
+# The function will open a new Rstudio window and you will need load `devtools` and `testthat` again
+```
 
 `.Rbuildignore` lists files that we need to have around but that should not be included when building the R package from source. More in 4.3.1.
 `.Rproj.user`, if you have it, is a directory used internally by RStudio.
@@ -53,12 +55,12 @@ The `R/` directory is the “business end” of your package. It will soon conta
 You can create an R package without using git, however one benefit of using git and GitHub is that you can then host your package in a Github repo. This allows you to easily share with others. The README.md will also auto-render so it looks pretty swish! There are many ways to use git with your existing R package or project - see [here](https://happygitwithr.com/new-github-first.html) for more info 
 
 ```{r Use git okay?}
-#Initiate git and create a Github repo from R
-#Assumes you have a personal access token (PAT) set up already
+# Initiate git and create a Github repo from R
+# Assumes you have a personal access token (PAT) set up already
 use_git() 
 use_github()
 
-#If you don't have a PAT set up yet
+# If you don't have a PAT set up yet
 gh_token_help() #will guide you through troubleshoot and set up
 create_github_token()
 gitcreds::gitcreds_set()
@@ -92,17 +94,17 @@ check()
 ### Your first function
 
 ```{r First function}
-#Creates an R script called say.R in R/
+# Creates an R script called say.R in R/
 use_r("say") 
 use_r("phrases") 
 ```
 
 **Copy and paste the contents of say.R and phrases.R in your empty R scripts**
 
-```{r}
-load_all() #Loads a preview of your early stage package
+```{r Preview}
+load_all() # Loads a preview of your early stage package
 
-#Try use the function!
+# Try use the function!
 say()
 ```
 
@@ -133,17 +135,17 @@ OR
 
 Once you have filled out the roxygen tags with information relating to your function
 
-```{r}
-#Write documentation
+```{r Document}
+# Write documentation
 document() #The function will go through your .R files and look at the roxygen tags and build/update any help files
 
-#Notice that man/ has been added in your R package
-#Notice that in NAMESPACE you can see say() because we used @export in the say() function
+# Notice that man/ has been added in your R package
+# Notice that in NAMESPACE you can see say() because we used @export in the say() function
 
-#Load your recent changes 
+# Load your recent changes 
 load_all() 
 
-#Preview your recent changes
+# Preview your recent changes
 ?say()
 ```
 
@@ -155,13 +157,13 @@ load_all()
 - Use `@importFrom` to bring in LOTS of functions from other packages - `ggplot2` is a good example
 
 ```{r ggplot2}
-#Instead of using the :: notation like below
+# Instead of using the :: notation like below
 my_plot <- function(data, x, y){
   ggplot2::ggplot(data, ggplot2::aes(x = x, y = y)) +
     ggplot2::ggplotgeom_point()
 }
 
-#You can import the functions using the roxygen tag as below
+# You can import the functions using the roxygen tag as below
 #' @importFrom ggplot2 ggplot aes geom_point theme scale_x_discrete     
 
 ```
@@ -173,10 +175,10 @@ The function of your `README` is to give users a quick overview of what your R p
 Knitting your .Rmd will produce a .md. If you are using git and your package is hosted on GitHub, knit your .Rmd and commit and push both files. That way your README is updated on the repository
 
 ```{r README}
-#This function will create the README file for you. 
+# This function will create the README file for you. 
 use_readme_RMD()
 
-#If your README is more basic and doesn't contain any code, just use the basic .md format.
+# If your README is more basic and doesn't contain any code, just use the basic .md format.
 use_readme_md()
 ```
 
@@ -207,10 +209,10 @@ and then run:
 ```{r Build and Browse vignette}
 build_vignettes() #Build the vignette
 
-#browseVignettes("packagename") #Previews in web browser
+# browseVignettes("packagename") #Previews in web browser
 browseVignettes("ohwhaley") 
 
-#vignette("packagename") #Previews in help window
+# vignette("packagename") #Previews in help window
 vignette("ohwhaley") 
 ```
 
@@ -234,13 +236,13 @@ There is no template on how to document data as far as I know but I have provide
 **Copy and paste in the contents of `data_template.R` into  `cetacean.R`.** Then run: 
 
 ```{r Document data}
-#To generate the helpfile
+# To generate the helpfile
 document() 
 
-#Load recent changes
+# Load recent changes
 load_all()
 
-#Preview your recent changes
+# Preview your recent changes
 ?cetacean 
 ```
 
@@ -251,11 +253,11 @@ Testing is a vital part of package development. It ensures that your code does w
 To set up tests: we rely on another R package called `testthat`
 
 ```{r Tests}
-#To initiate a basic testing skeleton run: 
+# To initiate a basic testing skeleton run: 
 use_testthat() #Creates tests/ and testhat.R and testthat/ adds testhat in Suggests in your DESCRIPTION file
 
-#To create a test script for the say() function
-#use_test("function name") #Creates a test .R script in testhat/
+# To create a test script for the say() function
+# use_test("function name") #Creates a test .R script in testhat/
 use_test("say") #Creates a file named test-say.R 
 ```
 
@@ -276,7 +278,7 @@ The first part of the `test_that()` is a description of the testing block.
 - Write down the context/scope of your test there
 - After the first curly brace, you list out your expectations
 
-```{r test example}
+```{r Test example}
 test_that("Output is of correct format",{
   expect_length(say(), 0) #Returns nada
   expect_null(say()) #Returns nada
@@ -289,7 +291,7 @@ test_that("Output is of correct format",{
 
 Now run a check. `R CMD check` will not also run your tests for you and report back if something fails. How handy!
 
-```{r}
+```{r Check once again}
 check()
 ```
 
@@ -297,14 +299,14 @@ check()
 
 You can try install it!
 
-```{r}
+```{r Install}
 install(build_vignettes = TRUE) 
 ```
 
 Alternatively, if you have git and GitHub set up...
 try installing using `devtools::install_github()`
 
-```{r}
+```{r Install GH}
 devtools::install_github("fontikar/ohwhaley")
 ```
 
