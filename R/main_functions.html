@@ -173,14 +173,163 @@ pre code {
 
 <div id="diy-r-package" class="section level2">
 <h2>DIY R package</h2>
-<p>Below are some of the main functions needed to create your first R package!</p>
+<p>Below are some of the main functions you will need to create your first R package!</p>
 <div id="the-mise-en-place" class="section level3">
 <h3>The mise en place</h3>
-<pre class="r"><code>library(devtools)
+<pre class="r"><code>library(devtools) #Will load usesthis and roxgen2 as well
 library(testthat)</code></pre>
 </div>
 <div id="the-main-set-up" class="section level3">
 <h3>The main set up</h3>
+<pre class="r"><code>#Create the basic skeleton of your package
+#create_package(&quot;package_name&quot;)
+
+create_package(&quot;ohwhaley&quot;)</code></pre>
+<p>This function will create the basic skeleton of your R package</p>
+<p><code>.Rbuildignore</code> lists files that we need to have around but that should not be included when building the R package from source. More in 4.3.1. <code>.Rproj.user</code>, if you have it, is a directory used internally by RStudio. .gitignore anticipates Git usage and ignores some standard, behind-the-scenes files created by R and RStudio. Even if you do not plan to use Git, this is harmless. <code>DESCRIPTION</code> provides metadata about your package. We edit this shortly. <code>NAMESPACE</code> declares the functions your package exports for external use and the external functions your package imports from other packages. At this point, it is empty, except for a comment declaring that this is a file we will not edit by hand. The <code>R/</code> directory is the “business end” of your package. It will soon contain .R files with function definitions.</p>
+<p><strong>Optional but recommended</strong></p>
+<p>You can create an R package without using git, however one benefit of using git and GitHub is that you can then host your package in a Github repo. This allows you to easily share with others. The README.md will also auto-render so it looks pretty swish! There are many ways to use git with your existing R package or project - see <a href="https://happygitwithr.com/new-github-first.html">here</a> for more info</p>
+<pre class="r"><code>#Initiate git and create a Github repo from R
+#Assumes you have a personal access token (PAT) set up already
+use_git() 
+use_github()
+
+#If you don&#39;t have a PAT set up yet
+gh_token_help() #will guide you through troubleshoot and set up
+create_github_token()
+gitcreds::gitcreds_set()</code></pre>
+</div>
+<div id="edit-your-description-file-manually" class="section level3">
+<h3>Edit your DESCRIPTION file manually</h3>
+<p>The DESCRIPTION file provides metadata about your package.</p>
+<ul>
+<li>Make yourself the author.</li>
+<li>Write some descriptive text in the <code>Title</code> and <code>Description</code> fields.</li>
+</ul>
+<p>The <code>DESCRIPTION</code> file is where you specify any dependencies your package may have. You simply add the package name under <code>Depends/Imports/Suggests</code>. If you want to use functions from existing packages, generally you will import most of your functions from other packages by using the <code>::</code> e.g <code>dplyr::mutate</code> and then adding dplyr under <code>Imports</code></p>
+</div>
+<div id="declare-your-license" class="section level3">
+<h3>Declare your license</h3>
+<p>Read more about the different licenses in the <a href="https://r-pkgs.org/license.html">R packages book</a></p>
+<pre class="r"><code>use_mit_license(&quot;Your name&quot;)</code></pre>
+</div>
+<div id="routine-checks" class="section level3">
+<h3>Routine checks</h3>
+<p>In order to make sure your R package can build and run smoothly, we will need regulary run some sanity checks. The goal is to get 0 WARNINGS, NOTES or ERRORS. The function is pretty clever and will provide you with google-able error messages if you do run into some trouble.</p>
+<pre class="r"><code>check() </code></pre>
+</div>
+<div id="your-first-function" class="section level3">
+<h3>Your first function</h3>
+<pre class="r"><code>#Creates an R script called say.R in R/
+use_r(&quot;say&quot;) 
+use_r(&quot;phrases&quot;) 
+
+#Copy and paste the contents of say.R and phrases.R in your empty R scripts
+load_all() #Loads a preview of your early stage package
+
+#Try use the function!
+say()</code></pre>
+<p>🌟 EXTRA:</p>
+<ul>
+<li>Want to write functions like dplyr where you can just type out the variable name instead of using data$var? You need to use curly braces in your function. For more details see <a href="https://dplyr.tidyverse.org/articles/programming.html" class="uri">https://dplyr.tidyverse.org/articles/programming.html</a></li>
+</ul>
+<pre class="r"><code>var_summary &lt;- function(data, var) {
+  data %&gt;%
+    summarise(n = n(), min = min({{ var }}), max = max({{ var }}))
+}
+
+mtcars %&gt;% 
+  group_by(cyl) %&gt;% 
+  var_summary(mpg)</code></pre>
+</div>
+<div id="document-it-object-documentation" class="section level3">
+<h3>Document it! (Object documentation)</h3>
+<p>We will use roxygen tags to document our function. This will generate a helpfile for the <code>say()</code> function so when you type <code>?say()</code> into the console. This form of documentation is written in the same R script as your function. You can either copy the contents of the <code>roxygen_template.R</code> and paste above the <code>say()</code> function your <code>say.R</code>.</p>
+<p>OR</p>
+<p>Place your cursor <em>inside</em> the <code>say()</code> function and click <code>Code &gt; Insert Roxygen Skeleton</code> in RStudio.</p>
+<p>Once you have filled out the roxygen tags with information relating to your function</p>
+<pre class="r"><code>#Write documentation
+document() #The function will go through your .R files and look at the roxygen tags and build/update any help files
+
+#Notice that man/ has been added in your R package
+#Notice that in NAMESPACE you can see say() because we used @export in the say() function
+
+#Load your recent changes 
+load_all() 
+
+#Preview your recent changes
+?say()</code></pre>
+<p>💡 TIPS:</p>
+<ul>
+<li>Once you have a roxygen skeleton, hitting ENTER will continue the formatting on the next line <code>#&#39;</code></li>
+<li>Typing <code>@</code> and then hitting TAB will show you the various roxygen tags you can use for your documentation</li>
+<li>Use <code>@export</code> if you want to make your function external use, meaning anyone that downloads your package can use it!</li>
+<li>Use <code>@importFrom</code> to bring in LOTS of functions from other packages - <code>ggplot2</code> is a good example</li>
+</ul>
+<pre class="r"><code>#Instead of using the :: notation like below
+my_plot &lt;- function(data, x, y){
+  ggplot2::ggplot(data, ggplot2::aes(x = x, y = y)) +
+    ggplot2::ggplotgeom_point()
+}
+
+#You can import the functions using the roxygen tag as below
+#&#39; @importFrom ggplot2 ggplot aes geom_point theme scale_x_discrete     </code></pre>
+</div>
+<div id="readme---your-landing-page" class="section level3">
+<h3>README - Your landing page</h3>
+<p>The function of your <code>README</code> is to give users a quick overview of what your R package is for and to help them get started with installation. Most R packages will have a installation instructions and some demo of its main functions. For this reason, its much easier to write your README in .Rmd format. Remember to knit regularly to preview your changes.</p>
+<p>Knitting your .Rmd will produce a .md. If you are using git and your package is hosted on GitHub, knit your .Rmd and commit and push both files. That way your README is updated on the repository</p>
+<pre class="r"><code>#This function will create the README file for you. 
+#Copy and paste the contents of example_README_vign.Rmd into your empty file
+use_readme_RMD()
+
+#If your README is more basic and doesn&#39;t contain any code, just use the basic .md format.
+use_readme_md()</code></pre>
+<p>🌟 EXTRA:</p>
+<ul>
+<li>You can use GitHub Actions to auto-render your .md from .RMD - see <a href="https://fromthebottomoftheheap.net/2020/04/30/rendering-your-readme-with-github-actions/" class="uri">https://fromthebottomoftheheap.net/2020/04/30/rendering-your-readme-with-github-actions/</a> In my experience so far… if your README is not very extensive and doesn’t get updates often then the time used to set up GitHub Actions is not worth the trouble!</li>
+</ul>
+</div>
+<div id="long-form-documentation" class="section level3">
+<h3>Long form documentation</h3>
+<p>Many great packages include helpful vignettes to so users can hit the ground running. Take a peak at <code>vignette(&quot;dplyr&quot;)</code>. Vignettes are usually a more extensive guide to using the package’s functions with example data. Some parts may repeat the README. Try write your vignette with a beginner’s mindset and explain things step by step.</p>
+<p>You can create multiple vignettes too, perhaps include some background information or a contributing guideline so others can help add value to your package 👨‍💻🧑‍💻👩‍💻</p>
+<pre class="r"><code># use_vignette(&quot;packagename&quot;) #Creates .Rmd file for vignette inside vignette/
+use_vignette(&quot;ohwhaley&quot;) 
+
+# Copy and paste the contents of example_vignette.Rmd into your empty .Rmd file
+# *For teaching purposes sake this is just a duplicate of the README
+
+build_vignettes() #Build the vignette
+
+#browseVignettes(&quot;packagename&quot;) #Previews in web browser
+browseVignettes(&quot;ohwhaley&quot;) 
+
+#vignette(&quot;packagename&quot;) #Previews in help window
+vignette(&quot;ohwhaley&quot;) </code></pre>
+</div>
+<div id="including-data-in-your-package" class="section level3">
+<h3>Including data in your package</h3>
+<p>Some packages have built-in data that is available for the user. In some cases, these can be used for demonstration purposes e.g. the <code>starwars</code> dataset in <code>dplyr</code>. Alternatively, some packages that are compilations of datasets e.g <a href="https://github.com/thebioengineer/tidytuesdayR" class="uri">https://github.com/thebioengineer/tidytuesdayR</a></p>
+<pre class="r"><code># Lets download some cetacean data from Tidy Tuesday
+cetacean_subset &lt;- readr::read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-12-18/allCetaceanData.csv&quot;) %&gt;% dplyr::select(species:birthYear)
+
+# use_data(data_obj, name) #Saves the data as a .rda object in a data/ folder
+use_data(cetacean_subset, name = cetacean)</code></pre>
+<p>Similar to a function, you will need to document your dataset so the meta-data can be found more easily like <code>?starwars</code>. To document the data, create a new .R script and save it as the name of the <code>.rda</code> object e.g. <code>cetacean.R</code> and store this with your functions in <code>R/</code>.</p>
+<p>There is no template on how to document data as far as I know but I have provided you with one in <code>data_template.R</code></p>
+<p>Copy and paste in the contents of <code>data_template.R</code> into <code>cetacean.R</code>. Then run:</p>
+<pre class="r"><code>#To generate the helpfile
+document() 
+
+#Load recent changes
+load_all()
+
+#Preview your recent changes
+?cetacean </code></pre>
+</div>
+<div id="finally-lets-talk-about-tests" class="section level3">
+<h3>Finally, lets talk about tests…</h3>
 </div>
 </div>
 
