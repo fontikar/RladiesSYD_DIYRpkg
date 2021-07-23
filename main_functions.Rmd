@@ -1,5 +1,5 @@
 ---
-title: "Main functions for DIY R package"
+title: "DIY R package"
 knit: (function(input_file, encoding) {
   out_dir <- 'docs';
   rmarkdown::render(input_file,
@@ -27,9 +27,7 @@ knitr::opts_chunk$set(echo = TRUE,
 library(dplyr)
 ```
 
-## DIY R package 💪
-
-Below are some of the main functions you will need to create your first R package!
+Below are some of the main functions you will need to create your first R package! 💪
 
 Please note 🚩 that some of the explanations are heavily borrowed from Hadley Wickham and Jenny Byran's book - ["R Packages: Oragnise, Test Document and Share your Code"](https://r-pkgs.org/index.html) which is open access! This is my go-to reference if I have a question about package development, highly recommended! ⭐️⭐️⭐️⭐️⭐️
 
