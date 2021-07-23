@@ -1,5 +1,10 @@
 ---
 title: "Main functions for DIY R package"
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 author: "Fonti Kar"
 date: "19/07/2021"
 output: 
