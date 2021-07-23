@@ -4,6 +4,9 @@ author: "Fonti Kar"
 date: "19/07/2021"
 output: 
   html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
     code_folding: show
 editor_options: 
   chunk_output_type: console
@@ -231,7 +234,7 @@ mtcars %>%
   var_summary(mpg)
 ```
 
-### Document it! (Object documentation) ✅
+### Document it - Object documentation ✅
 
 We will use roxygen tags to document our function. This will generate a helpfile for the `say()` function so when you type `?say()` into the console. This form of documentation is written in the same R script as your function. 
 
@@ -296,7 +299,7 @@ my_plot <- function(data, x, y){
 #' @importFrom ggplot2 ggplot aes geom_point theme scale_x_discrete     
 ```
 
-### README - Your landing page 🤓📖
+### README - Your landing page 🤓
 
 The function of your `README` is to give users a quick overview of what your R package is for and to help them get started with installation. Most R packages will have a installation instructions and some demo of its main functions. For this reason, its much easier to write your README in .Rmd format. Remember to knit regularly to preview your changes. 
 
@@ -336,7 +339,7 @@ You can create multiple vignettes too, perhaps include some background informati
 use_vignette("ohwhaley") 
 ```
 
-**Copy and paste the contents of example_vignette.Rmd into your empty .Rmd file** 
+**Copy and paste the contents of templates/example_vignette.Rmd into your empty .Rmd file** 
 
 (For teaching purposes sake this vignette is just a duplicate of the README)
 
@@ -354,8 +357,6 @@ browseVignettes("ohwhaley")
 vignette("ohwhaley") 
 ```
 
-
-
 ### Finally, lets talk about tests...📝
 
 Testing is a vital part of package development. It ensures that your code does what you want it to do. While it is not *completely* necessary for personal packages, it is best practice to include them! Try see testing as a game, its great when you pass a test right?! 
@@ -366,15 +367,24 @@ To set up tests: we rely on another R package called `testthat`
 # To initiate a basic testing skeleton run: 
 use_testthat() #Creates tests/ and testhat.R and testthat/ adds testhat in Suggests in your DESCRIPTION file
 
-load_all()
-test()
+# Load recent changes
+load_all() 
 
 # To create a test script for the say() function
 # use_test("function name") #Creates a test .R script in testhat/
 use_test("say") #Creates a file named test-say.R 
 ```
 
-**Copy and paste the contents of `test-say.R` into your empty script**
+**Copy and paste the followings content into your empty `test-say.R` script**
+
+```{r Test example}
+test_that("Output is of correct format",{
+  expect_length(say(), 0) #Returns nada
+  expect_null(say()) #Returns nada
+  expect_invisible(say()) #Returns nada
+  expect_message(say()) #Returns message
+})
+```
 
 Lets have a closer look at one part of the testing script 👀
 
@@ -391,16 +401,11 @@ The first part of the `test_that()` is a description of the testing block.
 - Write down the context/scope of your test there
 - After the first curly brace, you list out your expectations
 
-```{r Test example}
-test_that("Output is of correct format",{
-  expect_length(say(), 0) #Returns nada
-  expect_null(say()) #Returns nada
-  expect_invisible(say()) #Returns nada
-  expect_message(say()) #Returns message
-})
-```
-
 **Try running your testing unit - what do you see?**
+
+```{r}
+test()
+```
 
 Now run a check. `R CMD check` will not also run your tests for you and report back if something fails. How handy!
 
@@ -408,7 +413,7 @@ Now run a check. `R CMD check` will not also run your tests for you and report b
 check()
 ```
 
-### AND THATS IT FOLKS! You have yourself an R package! 🥳🥳🥳
+### You have yourself an R package! 🥳
 
 You can try install it!
 
@@ -423,3 +428,31 @@ try installing using `devtools::install_github()`
 devtools::install_github("fontikar/ohwhaley")
 ```
 
+**🌟 EXTRA: Including data in your package 🗄**
+
+Some packages have built-in data that is available for the user. In some cases, these can be used for demonstration purposes e.g. the `starwars` dataset in `dplyr`. Alternatively, some packages that are compilations of datasets e.g https://github.com/thebioengineer/tidytuesdayR
+
+```{r Use data, class.source = 'fold-hide'}
+# Lets download some cetacean data from Tidy Tuesday
+cetacean_subset <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-12-18/allCetaceanData.csv") %>% dplyr::select(species:birthYear)
+
+# use_data(data_obj, name) #Saves the data as a .rda object in a data/ folder
+use_data(cetacean_subset, name = cetacean)
+```
+
+Similar to a function, you will need to document your dataset so the meta-data can be found more easily like `?starwars`. To document the data, create a new .R script and save it as the name of the `.rda` object e.g. `cetacean.R` and store this with your functions in `R/`. 
+
+There is no template on how to document data as far as I know but I have provided you with one in `data_template.R`
+
+**Copy and paste in the contents of `template/data_template.R` into `cetacean.R`.** Then run: 
+
+```{r Document data, class.source = 'fold-hide'}
+# To generate the helpfile
+document() 
+
+# Load recent changes
+load_all()
+
+# Preview your recent changes
+?cetacean 
+```
