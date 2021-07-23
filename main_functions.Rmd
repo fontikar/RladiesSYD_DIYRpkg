@@ -3,8 +3,6 @@ title: "DIY R package"
 knit: (function(input_file, encoding) {
   out_dir <- 'docs';
   rmarkdown::render(input_file,
- encoding=encoding,
- output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 author: "Fonti Kar"
 date: "19/07/2021"
 output: 
@@ -17,7 +15,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include=FALSE}
+```{r BTS, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE,
                       message = FALSE,
@@ -56,7 +54,7 @@ usethis::create_package("ohwhaley")
 
 **The function will open a new Rstudio window and you will need load `devtools` and `testthat` again**
 
-```{r reload}
+```{r Reload}
 #install.packages(c("devtools", "testthat"))
 
 library(devtools) #Will load usesthis and roxgen2 as well
@@ -149,7 +147,7 @@ use_r("say")
 
 **Paste in the following code into your say.R**
 
-```{r}
+```{r Say whale}
 say <- function(what){
   #Defining the whale ASCII
   whale = "\n            ------ \n           %s \n            ------ \n               \\\   \n                \\\  \n                 \\\
@@ -183,7 +181,7 @@ say <- function(what){
 
 `say()` has one argument `what`, if `what` isn't supplied, `say` will use a random sentence from `phrases`. We will need to also create an R script for `phrases` the same way we did as above.
 
-```{r}
+```{r Create phrases}
 # Creates an R script called  phrase.R in R/
 use_r("phrases") 
 ```
@@ -192,7 +190,7 @@ use_r("phrases")
 
 Feel free to add more phrases 🐳🐳🐳
 
-```{r}
+```{r Phrases}
 #' Whale pun phrases used in say()
 
 phrases <-  c(
@@ -241,7 +239,7 @@ mtcars %>%
 
 We will use roxygen tags to document our function. This will generate a helpfile for the `say()` function so when you type `?say()` into the console. This form of documentation is written in the same R script as your function. 
 
-**You can either copy the following code and paste above the `say()` function your `say.R`**
+**Copy the following code and paste above the `say()` function your `say.R`**
 
 The first line is the Title of the helpfile
 
@@ -252,7 +250,7 @@ The first line is the Title of the helpfile
 - `@export` Including the export tag will make your function available to users, remove to keep your function for internal use
 - `@examples` Examples of using the function
 
-```{r rox2}
+```{r roxgen2}
 #' Summon a whale for a customisable pick-me-up
 #'
 #' @param what Whatever phrase you want whale to echo. If not supplied, a random phrase is chosen
@@ -279,7 +277,6 @@ document() #The function will go through your .R files and look at the roxygen t
 
 # Load your recent changes 
 load_all() 
-install()
 
 # Preview your recent changes
 ?say()
@@ -320,7 +317,7 @@ use_readme_md()
 
 Knit your README for a preview! 
 
-```{r}
+```{r Local install}
 #Since the README calls library(ohwhaley) to use its functions, we need to install it locally
 install()
 
@@ -328,6 +325,7 @@ install()
 ```
 
 🌟 EXTRA: 
+
 - You can use GitHub Actions to auto-render your .md from .RMD - see https://fromthebottomoftheheap.net/2020/04/30/rendering-your-readme-with-github-actions/ 
 In my experience so far... if your README is not very extensive and doesn't get updates often then the time used to set up GitHub Actions is not worth the trouble! 
 
@@ -349,9 +347,14 @@ use_vignette("ohwhaley")
 and then run: 
 
 ```{r Build and Browse vignette}
-build_vignettes() #Build the vignette
-build() #Build the package
-document() #Document
+#Build the vignette
+build_vignettes() 
+
+#Build the package from scratch
+#build() 
+
+#Update all the documentation
+#document() 
 
 # browseVignettes("packagename") #Previews in web browser
 browseVignettes("ohwhaley") 
@@ -370,9 +373,6 @@ To set up tests: we rely on another R package called `testthat`
 # To initiate a basic testing skeleton run: 
 use_testthat() #Creates tests/ and testhat.R and testthat/ adds testhat in Suggests in your DESCRIPTION file
 
-# Load recent changes
-load_all() 
-
 # To create a test script for the say() function
 # use_test("function name") #Creates a test .R script in testhat/
 use_test("say") #Creates a file named test-say.R 
@@ -381,6 +381,10 @@ use_test("say") #Creates a file named test-say.R
 **Copy and paste the followings content into your empty `test-say.R` script**
 
 ```{r Test example}
+# test_that("Description of test",{
+#   expect_(actual, expectation)
+# })
+
 test_that("Output is of correct format",{
   expect_length(say(), 0) #Returns nada
   expect_null(say()) #Returns nada
@@ -406,7 +410,7 @@ The first part of the `test_that()` is a description of the testing block.
 
 **Try running your testing unit - what do you see?**
 
-```{r}
+```{r Test it!}
 test()
 ```
 
