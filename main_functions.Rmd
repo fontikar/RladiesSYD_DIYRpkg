@@ -3,6 +3,8 @@ title: "DIY R package"
 knit: (function(input_file, encoding) {
   out_dir <- 'docs';
   rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 author: "Fonti Kar"
 date: "19/07/2021"
 output: 
@@ -10,7 +12,6 @@ output:
     toc: true
     toc_depth: 3
     toc_float: true
-    code_folding: show
 editor_options: 
   chunk_output_type: console
 ---
@@ -22,7 +23,7 @@ knitr::opts_chunk$set(echo = TRUE,
                       error = FALSE, 
                       eval = FALSE)
 
-library(dplyr)
+pacman::p_load(dplyr)
 ```
 
 Below are some of the main functions you will need to create your first R package! 💪
@@ -45,7 +46,7 @@ Be intentional where you create this on your computer. If you create it within a
 
 <img src="img/R_fuss.png" width="600">
 
-```{r Set up first}
+```{r Set up first, class.source='klippy'}
 # Create the basic skeleton of your package
 # create_package("package_name")
 
