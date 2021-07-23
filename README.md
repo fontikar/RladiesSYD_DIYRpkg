@@ -2,7 +2,7 @@
 
 # DIY R package workshop 
 
-<img src="Beyonce_package.png" align="center" alt="" width="400">
+<img src="img/Beyonce_package.png" align="center" alt="" width="400">
 
 ### Hello! Welcome! 👋
 
