@@ -276,9 +276,6 @@ document() #The function will go through your .R files and look at the roxygen t
 # Notice that man/ has been added in your R package
 # Notice that in NAMESPACE you can see say() because we used @export in the say() function
 
-# Load your recent changes 
-load_all() 
-
 # Preview your recent changes
 ?say()
 ```
