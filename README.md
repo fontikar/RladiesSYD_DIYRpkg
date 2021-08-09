@@ -1,4 +1,4 @@
-### RLadies Sydney July 2020 
+### RLadies Sydney July 2021
 
 # DIY R package workshop 
 
